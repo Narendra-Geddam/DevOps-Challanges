@@ -1,77 +1,82 @@
-# Deploy a Pod from a Private Registry
+<div align="center">
 
-Deploy an Nginx Pod using an image hosted in a private container registry.
+# PRIVATE REGISTRY K8S CHALLENGE
 
-## Goal
+### Pull a private image, run Nginx, verify like a pro
 
-Create a Pod that uses:
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Pod%20Deployment-326ce5?style=for-the-badge)
+![Registry](https://img.shields.io/badge/Registry-Private%20Image-ff6b00?style=for-the-badge)
+![Challenge](https://img.shields.io/badge/Iximiuz-Labs-00b894?style=for-the-badge)
 
+</div>
+
+---
+
+## Challenge Objective
+
+Deploy an Nginx Pod using an image from a **private container registry** and confirm it serves the default Nginx welcome page.
+
+Target:
 - Image: `registry.iximiuz.com/nginx:alpine`
 - Pod name: `nginx-1`
 - Namespace: `default`
 
-And ensure it serves the default Nginx welcome page.
+---
 
-## Registry Credentials
+## Registry Access
 
 - Registry: `registry.iximiuz.com`
 - Username: `iximiuzlabs`
 - Password: `rules!`
 
-## Step 1: Create Image Pull Secret
+---
+
+## Quick Start
+
+1. Apply the pull secret:
 
 ```bash
-kubectl create secret docker-registry regcred \
-  --docker-server=registry.iximiuz.com \
-  --docker-username=iximiuzlabs \
-  --docker-password='rules!' \
-  -n default
+kubectl apply -f regcred-secret.yaml
 ```
 
-## Step 2: Create Pod Manifest
-
-Create `nginx-1.yaml`:
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nginx-1
-  labels:
-    run: nginx-1
-spec:
-  containers:
-  - name: nginx-1
-    image: registry.iximiuz.com/nginx:alpine
-  imagePullSecrets:
-  - name: regcred
-```
-
-Apply it:
+2. Apply the pod manifest:
 
 ```bash
 kubectl apply -f nginx-1.yaml
 ```
 
-## Step 3: Verify
-
-Check Pod status:
+3. Verify pod state:
 
 ```bash
 kubectl get pod nginx-1 -n default
 ```
 
-Test response:
+4. Validate Nginx response:
 
 ```bash
 kubectl port-forward pod/nginx-1 8080:80 -n default
 curl http://localhost:8080
 ```
 
-Expected result: HTML for the default Nginx welcome page.
+Expected result: default Nginx welcome HTML.
+
+---
+
+## Included Manifests
+
+- `regcred-secret.yaml`
+- `nginx-1.yaml`
+
+---
 
 ## Success Criteria
 
-- Pod `nginx-1` exists in namespace `default`
-- Pod uses image `registry.iximiuz.com/nginx:alpine`
-- Nginx in the Pod responds with the welcome page
+- Pod `nginx-1` is running in `default`
+- Pod pulls `registry.iximiuz.com/nginx:alpine`
+- `curl http://localhost:8080` returns the Nginx welcome page
+
+<div align="center">
+
+## Challenge Complete When All Checks Pass
+
+</div>
