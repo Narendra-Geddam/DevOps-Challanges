@@ -1,77 +1,57 @@
-# Deploy a Pod from a Private Registry
+<div align="center">
 
-Deploy an Nginx Pod using an image hosted in a private container registry.
+# DEVOPS CHALLENGES
 
-## Goal
+### Building battle-ready DevOps and Server-Side skills with **Iximiuz Labs**
 
-Create a Pod that uses:
+![Status](https://img.shields.io/badge/Status-In%20Progress-ff6b00?style=for-the-badge)
+![Focus](https://img.shields.io/badge/Focus-Hands--On%20Labs-00b894?style=for-the-badge)
+![Platform](https://img.shields.io/badge/Platform-Iximiuz%20Labs-0984e3?style=for-the-badge)
 
-- Image: `registry.iximiuz.com/nginx:alpine`
-- Pod name: `nginx-1`
-- Namespace: `default`
+</div>
 
-And ensure it serves the default Nginx welcome page.
+---
 
-## Registry Credentials
+## Why This Repo Exists
 
-- Registry: `registry.iximiuz.com`
-- Username: `iximiuzlabs`
-- Password: `rules!`
+This repository tracks my challenge-solving journey on **Iximiuz Labs**.
 
-## Step 1: Create Image Pull Secret
+These are focused, hands-on problems designed to sharpen DevOps and server-side engineering skills. Some labs are educational deep-dives, while others simulate real-world production scenarios.
 
-```bash
-kubectl create secret docker-registry regcred \
-  --docker-server=registry.iximiuz.com \
-  --docker-username=iximiuzlabs \
-  --docker-password='rules!' \
-  -n default
-```
+Each challenge includes:
+- Guided hints when needed
+- Immediate feedback loops
+- Automated solution checks
 
-## Step 2: Create Pod Manifest
+---
 
-Create `nginx-1.yaml`:
+## What You Will Find Here
 
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nginx-1
-  labels:
-    run: nginx-1
-spec:
-  containers:
-  - name: nginx-1
-    image: registry.iximiuz.com/nginx:alpine
-  imagePullSecrets:
-  - name: regcred
-```
+- Real challenge solutions
+- Practical Kubernetes and infrastructure workflows
+- Notes learned from debugging and iteration
+- Clean, repeatable commands and manifests
 
-Apply it:
+---
 
-```bash
-kubectl apply -f nginx-1.yaml
-```
+## Journey Snapshot
 
-## Step 3: Verify
+| Track | Progress |
+|---|---|
+| Kubernetes | In Progress |
+| Containers | In Progress |
+| DevOps Scenarios | In Progress |
 
-Check Pod status:
+---
 
-```bash
-kubectl get pod nginx-1 -n default
-```
+## Mission
 
-Test response:
+Turn theory into execution.  
+Ship reliable solutions under realistic constraints.  
+Keep leveling up, one challenge at a time.
 
-```bash
-kubectl port-forward pod/nginx-1 8080:80 -n default
-curl http://localhost:8080
-```
+<div align="center">
 
-Expected result: HTML for the default Nginx welcome page.
+## STAY TUNED MORE CHALLENGES COMING
 
-## Success Criteria
-
-- Pod `nginx-1` exists in namespace `default`
-- Pod uses image `registry.iximiuz.com/nginx:alpine`
-- Nginx in the Pod responds with the welcome page
+</div>
