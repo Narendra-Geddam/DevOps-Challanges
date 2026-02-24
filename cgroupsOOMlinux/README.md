@@ -9,8 +9,6 @@
   </p>
 </div>
 
-# Linux cgroups OOM Challenge
-
 > **Goal:** If one worker hits OOM, kill the entire `hogherder + memhog` process group.
 
 ## Challenge Snapshot
