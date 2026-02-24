@@ -1,3 +1,14 @@
+
+<div align="center">
+  <h1>Linux cgroups OOM Challenge</h1>
+  <h3>Enforce group-wide OOM kill for hogherder + memhog</h3>
+  <p>
+    <img alt="Linux" src="https://img.shields.io/badge/Linux-cgroups_v2-1f6feb?style=for-the-badge" />
+    <img alt="OOM" src="https://img.shields.io/badge/OOM-Group%20Kill-critical?style=for-the-badge" />
+    <img alt="Memory" src="https://img.shields.io/badge/Memory-500MB-2ea44f?style=for-the-badge" />
+  </p>
+</div>
+
 # Linux cgroups OOM Challenge
 
 > **Goal:** If one worker hits OOM, kill the entire `hogherder + memhog` process group.
