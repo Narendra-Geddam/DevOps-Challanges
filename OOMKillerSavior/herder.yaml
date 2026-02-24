@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: herder
+  labels:
+    test: OOMKillerSavior
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      test: OOMKillerSavior
+
+  template:
+    metadata:
+      name: herder
+      labels:
+        test: OOMKillerSavior
+
+    spec:
+      containers:
+      - name: herder
+        image: ghcr.io/iximiuz/labs/resource-hog/herder:v1.0.0
+
+        resources:
+          limits:
+            cpu: 250m
+            memory: 256Mi
+
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                test: OOMKillerSavior
+            topologyKey: kubernetes.io/hostname

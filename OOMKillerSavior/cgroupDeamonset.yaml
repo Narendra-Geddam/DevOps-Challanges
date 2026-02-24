@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: disable-memory-oom-group
+
+spec:
+  selector:
+    matchLabels:
+      app: disable-memory-oom-group
+
+  template:
+    metadata:
+      labels:
+        app: disable-memory-oom-group
+
+    spec:
+      containers:
+      - name: disable-memory-oom-group
+        image: busybox
+
+        securityContext:
+          privileged: true
+
+        command:
+        - /bin/sh
+        - -c
+        - |
+          while true; do
+            for f in $(find /sys/fs/cgroup/kubepods.slice/ -name memory.oom.group); do
+              echo 0 > "$f"
+            done
+            sleep 10
+          done
+
+        volumeMounts:
+        - name: cgroup
+          mountPath: /sys/fs/cgroup
+
+      volumes:
+      - name: cgroup
+        hostPath:
+          path: /sys/fs/cgroup
