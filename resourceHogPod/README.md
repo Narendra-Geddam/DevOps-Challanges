@@ -1,10 +1,10 @@
 <div align="center">
 
-# RESOURCE HOG POD CHALLENGE
+# Resource Hog Pod Challenge
 
-### Run a greedy container safely with hard resource limits
+### Run a greedy workload safely with strict Kubernetes limits
 
-![Kubernetes](https://img.shields.io/badge/Kubernetes-Standalone%20Pod-326ce5?style=for-the-badge)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Pod-326ce5?style=for-the-badge)
 ![CPU](https://img.shields.io/badge/CPU%20Limit-250m-e74c3c?style=for-the-badge)
 ![Memory](https://img.shields.io/badge/Memory%20Limit-500Mi-f39c12?style=for-the-badge)
 
@@ -12,64 +12,66 @@
 
 ---
 
-## Challenge Objective
+## Objective
 
-Deploy a resource-hungry Pod that continuously stresses CPU and memory, but keep the cluster stable by enforcing strict limits.
+Deploy a standalone Pod that aggressively consumes resources, while keeping node stability by enforcing hard limits.
 
-Target:
-- Pod name: `hoggy`
+Target values:
+- Pod: `hoggy`
 - Namespace: `default`
 - Image: `ghcr.io/iximiuz/labs/resource-hog/herder:v1.0.0`
+- CPU limit: `250m`
+- Memory limit: `500Mi`
 
 ---
 
-## Requirements
-
-- Deploy a standalone Pod named `hoggy`
-- Ensure it restarts automatically after crashes/termination
-- Enforce limits:
-  - CPU: `250m`
-  - Memory: `500Mi`
-
----
-
-## Quick Start
-
-1. Apply the manifest:
-
-```bash
-kubectl apply -f hoggy.yaml
-```
-
-2. Watch pod behavior:
-
-```bash
-kubectl get pod hoggy -w
-```
-
-3. Confirm limits are applied:
-
-```bash
-kubectl describe pod hoggy
-```
-
----
-
-## Included Manifest
+## Files
 
 - `hoggy.yaml`
 
 ---
 
-## Success Criteria
+## Deploy
 
-- Pod `hoggy` is running in `default`
-- Pod has `restartPolicy: Always`
-- Resource limits are set to `250m` CPU and `500Mi` memory
-- Pod may restart due to OOM/pressure but cluster remains responsive
+```bash
+kubectl apply -f hoggy.yaml
+```
 
-<div align="center">
+---
 
-## Challenge Complete When All Checks Pass
+## Verify
 
-</div>
+```bash
+kubectl get pod hoggy -n default
+kubectl describe pod hoggy -n default
+```
+
+Expected:
+- `hoggy` exists in `default`
+- `restartPolicy: Always`
+- Limits show `cpu: 250m` and `memory: 500Mi`
+- Restarts may occur under pressure, but behavior is controlled
+
+---
+
+## Common Problems Faced
+
+1. Pod runs but limits are missing
+- Cause: limits not set under `resources.limits`
+- Fix: add explicit `cpu` and `memory` limits
+
+2. Wrong unit used for memory
+- Cause: `500M` instead of `500Mi`
+- Fix: use binary unit `Mi` as required
+
+3. Pod name mismatch
+- Cause: manifest name differs from expected `hoggy`
+- Fix: set `metadata.name: hoggy`
+
+---
+
+## Final Status
+
+- Manifest applied: PASS
+- Limits enforced: PASS
+- Challenge checks: PASS

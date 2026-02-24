@@ -1,57 +1,49 @@
 <div align="center">
 
-# DEVOPS CHALLENGES
+# DevOps Challenge Track
 
-### Building battle-ready DevOps and Server-Side skills with **Iximiuz Labs**
+### Hands-on labs from Iximiuz, documented as production-style runbooks
 
-![Status](https://img.shields.io/badge/Status-In%20Progress-ff6b00?style=for-the-badge)
-![Focus](https://img.shields.io/badge/Focus-Hands--On%20Labs-00b894?style=for-the-badge)
-![Platform](https://img.shields.io/badge/Platform-Iximiuz%20Labs-0984e3?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Active-ff6b00?style=for-the-badge)
+![Type](https://img.shields.io/badge/Type-Challenge%20Portfolio-00b894?style=for-the-badge)
+![Focus](https://img.shields.io/badge/Focus-Kubernetes%20%7C%20Linux%20%7C%20Debugging-0984e3?style=for-the-badge)
 
 </div>
 
 ---
 
-## Why This Repo Exists
+## What This Repository Contains
 
-This repository tracks my challenge-solving journey on **Iximiuz Labs**.
+This repository tracks solved DevOps challenges with practical commands, manifests, and troubleshooting notes.
 
-These are focused, hands-on problems designed to sharpen DevOps and server-side engineering skills. Some labs are educational deep-dives, while others simulate real-world production scenarios.
-
-Each challenge includes:
-- Guided hints when needed
-- Immediate feedback loops
-- Automated solution checks
+Every challenge folder is structured to be:
+- Reproducible
+- Review-friendly
+- Useful as a quick reference later
 
 ---
 
-## What You Will Find Here
+## Challenge Index
 
-- Real challenge solutions
-- Practical Kubernetes and infrastructure workflows
-- Notes learned from debugging and iteration
-- Clean, repeatable commands and manifests
-
----
-
-## Journey Snapshot
-
-| Track | Progress |
-|---|---|
-| Kubernetes | In Progress |
-| Containers | In Progress |
-| DevOps Scenarios | In Progress |
+| Challenge | Focus Area | Status |
+|---|---|---|
+| `private-registry-k8s` | Kubernetes image pull secrets | Complete |
+| `resourceHogPod` | Pod resource limits and restart behavior | Complete |
+| `cgroupsOOMlinux` | Linux cgroup v2 memory/cpu and group OOM control | Complete |
 
 ---
 
-## Mission
+## How To Use This Repo
 
-Turn theory into execution.  
-Ship reliable solutions under realistic constraints.  
-Keep leveling up, one challenge at a time.
+1. Open a challenge directory.
+2. Read the local `README.md` for objective and verification steps.
+3. Apply manifests or commands exactly as listed.
+4. Validate using the included checklist.
 
-<div align="center">
+---
 
-## STAY TUNED MORE CHALLENGES COMING
-Flashy Challenge README
-</div>
+## Why This Matters
+
+These labs focus on realistic failure conditions: OOM events, resource starvation, private image auth, and reliability under constraints.
+
+The goal is not only to pass checks, but to build repeatable operational instincts.

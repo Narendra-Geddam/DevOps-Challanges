@@ -1,29 +1,29 @@
 <div align="center">
 
-# PRIVATE REGISTRY K8S CHALLENGE
+# Private Registry Kubernetes Challenge
 
-### Pull a private image, run Nginx, verify like a pro
+### Authenticate to a private registry and run Nginx in-cluster
 
-![Kubernetes](https://img.shields.io/badge/Kubernetes-Pod%20Deployment-326ce5?style=for-the-badge)
-![Registry](https://img.shields.io/badge/Registry-Private%20Image-ff6b00?style=for-the-badge)
-![Challenge](https://img.shields.io/badge/Iximiuz-Labs-00b894?style=for-the-badge)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Pod%20Auth-326ce5?style=for-the-badge)
+![Registry](https://img.shields.io/badge/Registry-Private-ff6b00?style=for-the-badge)
+![Image](https://img.shields.io/badge/Image-nginx:alpine-00b894?style=for-the-badge)
 
 </div>
 
 ---
 
-## Challenge Objective
+## Objective
 
-Deploy an Nginx Pod using an image from a **private container registry** and confirm it serves the default Nginx welcome page.
+Deploy Pod `nginx-1` in `default` using a private image and verify the Nginx welcome page is served.
 
 Target:
 - Image: `registry.iximiuz.com/nginx:alpine`
-- Pod name: `nginx-1`
+- Pod: `nginx-1`
 - Namespace: `default`
 
 ---
 
-## Registry Access
+## Credentials Used
 
 - Registry: `registry.iximiuz.com`
 - Username: `iximiuzlabs`
@@ -31,52 +31,55 @@ Target:
 
 ---
 
-## Quick Start
-
-1. Apply the pull secret:
-
-```bash
-kubectl apply -f regcred-secret.yaml
-```
-
-2. Apply the pod manifest:
-
-```bash
-kubectl apply -f nginx-1.yaml
-```
-
-3. Verify pod state:
-
-```bash
-kubectl get pod nginx-1 -n default
-```
-
-4. Validate Nginx response:
-
-```bash
-kubectl port-forward pod/nginx-1 8080:80 -n default
-curl http://localhost:8080
-```
-
-Expected result: default Nginx welcome HTML.
-
----
-
-## Included Manifests
+## Files
 
 - `regcred-secret.yaml`
 - `nginx-1.yaml`
 
 ---
 
-## Success Criteria
+## Deploy
 
-- Pod `nginx-1` is running in `default`
-- Pod pulls `registry.iximiuz.com/nginx:alpine`
-- `curl http://localhost:8080` returns the Nginx welcome page
+```bash
+kubectl apply -f regcred-secret.yaml
+kubectl apply -f nginx-1.yaml
+```
 
-<div align="center">
+---
 
-## Challenge Complete When All Checks Pass
+## Verify
 
-</div>
+```bash
+kubectl get pod nginx-1 -n default
+kubectl port-forward pod/nginx-1 8080:80 -n default
+curl http://localhost:8080
+```
+
+Expected:
+- Pod reaches `Running`
+- Image pulls successfully from private registry
+- `curl` returns default Nginx HTML page
+
+---
+
+## Common Problems Faced
+
+1. `ImagePullBackOff`
+- Cause: missing/incorrect image pull secret
+- Fix: create secret correctly and reference it in pod spec
+
+2. Secret exists in wrong namespace
+- Cause: secret created outside `default`
+- Fix: create/apply secret in same namespace as pod
+
+3. Pod manifest missing `imagePullSecrets`
+- Cause: pod cannot use registry credentials
+- Fix: include `imagePullSecrets` with the secret name
+
+---
+
+## Final Status
+
+- Private pull authentication: PASS
+- Pod deployment: PASS
+- Nginx response validation: PASS
