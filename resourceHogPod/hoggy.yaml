@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hoggy
+  namespace: default
+spec:
+  restartPolicy: Always
+  containers:
+    - name: hoggy
+      image: ghcr.io/iximiuz/labs/resource-hog/herder:v1.0.0
+      resources:
+        limits:
+          cpu: 250m
+          memory: 500Mi
