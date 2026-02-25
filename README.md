@@ -30,6 +30,11 @@ Every challenge folder is structured to be:
 | `private-registry-k8s` | Kubernetes image pull secrets | Complete |
 | `resourceHogPod` | Pod resource limits and restart behavior | Complete |
 | `cgroupsOOMlinux` | Linux cgroup v2 memory/cpu and group OOM control | Complete |
+| `FirstDockerfile` | Build and run a first Docker image | Complete |
+| `OOMKillerSavior` | Linux OOM troubleshooting and remediation | Complete |
+| `cpFilesPod-Host` | Copy files between pod and host (simple + distroless) | Complete |
+| `iptablesChallange` | `iptables` intro, usage, and command reference | Complete |
+| `iptablesChallange/ProtectVMfirewall` | Restrict port `8080` to localhost using firewall rules | Complete |
 
 ---
 
