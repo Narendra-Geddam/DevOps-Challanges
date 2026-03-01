@@ -7,6 +7,7 @@
 ![Status](https://img.shields.io/badge/Status-Active-ff6b00?style=for-the-badge)
 ![Type](https://img.shields.io/badge/Type-Challenge%20Portfolio-00b894?style=for-the-badge)
 ![Focus](https://img.shields.io/badge/Focus-Kubernetes%20%7C%20Linux%20%7C%20Debugging-0984e3?style=for-the-badge)
+![Docker](https://img.shields.io/badge/New-Dockerfile%20Challenges-1f6feb?style=for-the-badge)
 
 </div>
 
@@ -35,6 +36,8 @@ Every challenge folder is structured to be:
 | `cpFilesPod-Host` | Copy files between pod and host (simple + distroless) | Complete |
 | `iptablesChallange` | `iptables` intro, usage, and command reference | Complete |
 | `iptablesChallange/ProtectVMfirewall` | Restrict port `8080` to localhost using firewall rules | Complete |
+| `Dockerfile-challanges/Dockerfile-compail` | Build/compile apps inside Dockerfiles (Node + Go) | Complete |
+| `Dockerfile-challanges/multistage` | Multi-stage Docker builds for slim runtime images | Complete |
 
 ---
 
@@ -52,3 +55,18 @@ Every challenge folder is structured to be:
 These labs focus on realistic failure conditions: OOM events, resource starvation, private image auth, and reliability under constraints.
 
 The goal is not only to pass checks, but to build repeatable operational instincts.
+
+---
+
+## Latest Additions
+
+<table>
+  <tr>
+    <td><strong>Build & Compile in Docker</strong></td>
+    <td><a href="./Dockerfile-challanges/Dockerfile-compail/README.md">Open challenge</a></td>
+  </tr>
+  <tr>
+    <td><strong>Optimize with Multi-Stage</strong></td>
+    <td><a href="./Dockerfile-challanges/multistage/README.md">Open challenge</a></td>
+  </tr>
+</table>
