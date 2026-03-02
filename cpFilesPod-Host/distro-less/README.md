@@ -103,4 +103,3 @@ If PID file error appears (`/var/run/nginx.pid`), fallback to sending `HUP` to n
 ## Visuals
 
 ![Debug method](./image.png)
-![Rootfs path hint](./image1.png)
