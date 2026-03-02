@@ -12,25 +12,36 @@
 
 ---
 
-## Goal
+## Objective
 
-Build two images:
+Build two production-ready images from source code:
 
-- `my-frontend:v1.0.0` from TypeScript source
-- `my-backend:v1.0.0` from Go source
+- `my-frontend:v1.0.0` (TypeScript -> JavaScript)
+- `my-backend:v1.0.0` (Go -> compiled binary)
 
-Both must start and respond on runtime ports.
+Both containers must start successfully and respond on expected ports.
+
+---
+
+## Concept Primer
+
+This challenge tests a common real-world pattern: **build-time compile + runtime execute**.
+
+- Frontend needs `npm run build` so TypeScript can become runnable JS.
+- Backend needs `go build` so source can become an executable binary.
+
+If compilation is missing in Dockerfile, container may build but fail to run.
 
 ---
 
 ## Solution Layout
 
-| Component | Path | Notes |
+| Component | Path | Why It Matters |
 |---|---|---|
-| Frontend | `./frontend` | Node + TypeScript compile with `npm run build` |
-| Backend | `./backend` | Go compile with `go build` |
+| Frontend | `./frontend` | Validates Node/TypeScript build flow and startup command correctness |
+| Backend | `./backend` | Validates Go toolchain compatibility and binary execution |
 
-Detailed write-ups:
+Detailed sub-guides:
 
 - [Frontend README](./frontend/README.md)
 - [Backend README](./backend/README.md)
@@ -63,7 +74,7 @@ CMD ["./app"]
 
 ---
 
-## Verification Commands
+## Build and Run
 
 ```bash
 docker build -t my-frontend:v1.0.0 ./frontend
@@ -75,46 +86,23 @@ docker run --rm -p 8080:8080 my-backend:v1.0.0
 
 ---
 
-## Build Evidence
+## What Went Wrong (And How Solved)
 
-<p align="center">
-  <img src="./frontend/frontend.png" alt="Frontend build and run output" width="48%" />
-  <img src="./backend/backend.png" alt="Backend build and run output" width="48%" />
-</p>
+1. Frontend startup failed due to incorrect `CMD` format.
+Fix: use JSON array form: `CMD ["node", "dist/server.js"]`.
 
----
+2. Backend build failed due to Go version mismatch.
+Fix: use `golang:1.26-alpine` to match `go.mod` requirement.
 
-## Key Fixes During Debugging
-
-- Updated backend base image to `golang:1.26-alpine` to match `go.mod` (`go 1.26`).
-- Fixed frontend container start command so `dist/server.js` is executed correctly.
-- Confirmed both containers run successfully on ports `3000` and `8080`.
+3. Route validation confusion (`/` showed static page, not API behavior).
+Fix: validate API routes directly (`/api/health`, `/api/message`).
 
 ---
 
-## Problems I Faced (Real Run Notes)
+## Validation Checklist
 
-1. Backend build failed with:
-   `go.mod requires go >= 1.26 (running go 1.22.12)`.
-   Fix: upgraded Docker base image from `golang:1.22-alpine` to `golang:1.26-alpine`.
-2. Tried `COPY go.mod go.sum ./` but `go.sum` did not exist.
-   Fix: used `COPY . .` and direct `go build` for this challenge layout.
-3. Frontend container initially failed with:
-   `Cannot find module '/node dist/server.js'`.
-   Fix: corrected Docker `CMD` exec form to `["node", "dist/server.js"]`.
-4. Confusion while testing backend using `/`.
-   Backend only exposes `/api/health` and `/api/message`, so `/` returned `404` by design.
-5. Port conflict happened on `3000` (`port is already allocated`).
-   Fix: removed old container or mapped a different host port.
-6. Used wrong URL once: `//api/health` (double slash), which caused route miss.
-
----
-
-## What I Learned (First Time with npm + Go)
-
-- `npm` and `go` toolchains must match the project requirements before Docker build.
-- TypeScript apps need a build step (`npm run build`) before running `node dist/server.js`.
-- Go apps follow `go.mod`; Docker image Go version must satisfy that version.
-- A running server does not mean `/` exists; only defined routes are valid.
-- Small Docker syntax mistakes in `CMD`/`COPY` can break runtime.
-- Layer caching can hide bad instructions; `--no-cache` helps when debugging.
+- [ ] both images build successfully
+- [ ] both containers start without crash
+- [ ] frontend responds on `3000`
+- [ ] backend responds on `8080`
+- [ ] health endpoints return expected output
